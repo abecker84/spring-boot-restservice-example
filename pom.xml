@@ -51,6 +51,26 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		
+		<!-- Swagger2 2.6.1 does not work with spring boot -->
+		<!-- The bug is scheduled for Swagger milestone 2.7.0 -->
+		<!-- (As it seems, the problem persists in 2.7.0 ???) -->
+		<!-- cf. https://github.com/springfox/springfox/issues/1752 -->
+		
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.6.0</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.6.0</version>
+			<scope>compile</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
