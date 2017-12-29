@@ -3,10 +3,12 @@ package name.becker.andreas.example.spring.boot.restservice;
 import static org.junit.Assert.assertEquals;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 import static org.springframework.http.HttpHeaders.LOCATION;
+import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 import org.json.JSONException;
@@ -78,11 +80,70 @@ public class SpringBootRestServiceIT {
 	assertEquals("Wrong status code!", OK, response.getStatusCode());
     }
 
-    // TODO:
-    // testUpdateCustomerSuccess()
-    // testUpdateCustomerFailureIdNotFound()
-    // testDeleteCustomerSuccess()
-    // testDeleteCustomerFailureIdNotFound()
+    @Test
+    public void testUpdateCustomerSuccess() throws JSONException {
+
+	// PUT changed data for customer with id = 4713:
+	String requestJson = "{\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\"}";
+	headers.add("Content-Type", "application/json");
+	HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
+	ResponseEntity<String> response = restTemplate.exchange(createUrl("/customers/4713"), PUT, entity,
+		String.class);
+
+	assertEquals("Wrong status code!", OK, response.getStatusCode());
+
+	// GET and check the modified data:
+	String expectedResponseJson = "{\"id\":4713,\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\"}";
+	headers.clear();
+	entity = new HttpEntity<>(null, headers);
+	response = restTemplate.exchange(createUrl("/customers/4713"), GET, entity, String.class);
+
+	assertEquals("Wrong status code!", OK, response.getStatusCode());
+	assertEquals(expectedResponseJson, response.getBody(), false);
+    }
+
+    @Test
+    public void testUpdateCustomerFailureIdNotFound() throws JSONException {
+
+	// Try to PUT changed data for customer with wrong id = 6789:
+	String requestJson = "{\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\"}";
+	headers.add("Content-Type", "application/json");
+	HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
+	ResponseEntity<String> response = restTemplate.exchange(createUrl("/customers/6789"), PUT, entity,
+		String.class);
+
+	// We should receive a 204 / No content!
+	assertEquals("Wrong status code!", NO_CONTENT, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteCustomerSuccess() {
+
+	// DELETE customer #4712:
+	HttpEntity<String> entity = new HttpEntity<>(null, headers);
+	ResponseEntity<String> response = restTemplate.exchange(createUrl("/customers/4712"), DELETE, entity,
+		String.class);
+
+	assertEquals("Wrong status code!", OK.value(), response.getStatusCodeValue());
+
+	// Try to GET customer #4712 - Should result in 404!
+	response = restTemplate.exchange(createUrl("/customers/4712"), GET, entity, String.class);
+
+	assertEquals("Wrong status code!", NOT_FOUND.value(), response.getStatusCodeValue());
+    }
+
+    @Test
+    public void testDeleteCustomerFailureIdNotFound() {
+
+	// Try to DELETE customer with wrong id 6789:
+	HttpEntity<String> entity = new HttpEntity<>(null, headers);
+	ResponseEntity<String> response = restTemplate.exchange(createUrl("/customers/6789"), DELETE, entity,
+		String.class);
+
+	// We should receive a 204 / No content!
+	assertEquals("Wrong status code!", NO_CONTENT.value(), response.getStatusCodeValue());
+
+    }
 
     private String createUrl(String uri) {
 	return "http://localhost:" + port + "/rest-example" + uri;
