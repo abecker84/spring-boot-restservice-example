@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponents;
@@ -27,6 +28,7 @@ import name.becker.andreas.example.spring.boot.restservice.logic.CustomerManagem
  * to the corresponding http verbs that grant access to the customer resource.
  */
 @RestController
+@RequestMapping("/rest-example")
 public class CustomerRestController {
 
     @Autowired

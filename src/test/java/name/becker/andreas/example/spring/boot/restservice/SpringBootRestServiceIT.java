@@ -41,7 +41,8 @@ public class SpringBootRestServiceIT {
     @Test
     public void testReadCustomerSuccess() throws JSONException {
 	HttpEntity<String> entity = new HttpEntity<>(null, headers);
-	ResponseEntity<String> response = restTemplate.exchange(createUrl("customers/4711"), GET, entity, String.class);
+	ResponseEntity<String> response = restTemplate.exchange(createUrl("/customers/4711"), GET, entity,
+		String.class);
 
 	String expectedResponseJson = "{\"id\":4711,\"surename\":\"Sandra\",\"lastname\":\"Sample\",\"email\":\"sandra.sample@somewhere.example\"}";
 	assertEquals("Wrong status code!", OK.value(), response.getStatusCodeValue());
@@ -52,7 +53,8 @@ public class SpringBootRestServiceIT {
     @Test
     public void testReadCustomerFailureIdNotFound() throws JSONException {
 	HttpEntity<String> entity = new HttpEntity<>(null, headers);
-	ResponseEntity<String> response = restTemplate.exchange(createUrl("customers/9999"), GET, entity, String.class);
+	ResponseEntity<String> response = restTemplate.exchange(createUrl("/customers/9999"), GET, entity,
+		String.class);
 
 	assertEquals("Wrong status code!", NOT_FOUND.value(), response.getStatusCodeValue());
     }
@@ -83,6 +85,6 @@ public class SpringBootRestServiceIT {
     // testDeleteCustomerFailureIdNotFound()
 
     private String createUrl(String uri) {
-	return "http://localhost:" + port + uri;
+	return "http://localhost:" + port + "/rest-example" + uri;
     }
 }
