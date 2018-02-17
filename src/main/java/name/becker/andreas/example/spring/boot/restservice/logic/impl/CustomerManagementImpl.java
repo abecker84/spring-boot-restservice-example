@@ -3,6 +3,7 @@
  */
 package name.becker.andreas.example.spring.boot.restservice.logic.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +55,7 @@ public class CustomerManagementImpl implements CustomerManagement {
 	customer.setId(4711L);
 	customer.setLastname("Sample");
 	customer.setSurename("Sandra");
+	customer.setDateOfBirth(LocalDate.parse("1980-04-24"));
 	customer.setEmail("sandra.sample@somewhere.example");
 
 	allCustomers.put(customer.getId(), customer);
@@ -63,6 +65,7 @@ public class CustomerManagementImpl implements CustomerManagement {
 	customer.setId(4712L);
 	customer.setLastname("Alright");
 	customer.setSurename("Andy");
+	customer.setDateOfBirth(LocalDate.parse("1974-08-16"));
 	customer.setEmail("andy.alright@alright-software.example");
 
 	allCustomers.put(customer.getId(), customer);
@@ -72,6 +75,7 @@ public class CustomerManagementImpl implements CustomerManagement {
 	customer.setId(4713L);
 	customer.setLastname("Barnes");
 	customer.setSurename("Barney");
+	customer.setDateOfBirth(LocalDate.parse("1955-02-12"));
 	customer.setEmail("barney.barnes@barnes-food.example");
 
 	allCustomers.put(customer.getId(), customer);

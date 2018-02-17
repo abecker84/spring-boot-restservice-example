@@ -64,7 +64,7 @@ public class SpringBootRestServiceIT {
 	ResponseEntity<String> response = restTemplate.exchange(createUrl("/customers/4711"), GET, entity,
 		String.class);
 
-	String expectedResponseJson = "{\"id\":4711,\"surename\":\"Sandra\",\"lastname\":\"Sample\",\"email\":\"sandra.sample@somewhere.example\"}";
+	String expectedResponseJson = "{\"id\":4711,\"surename\":\"Sandra\",\"lastname\":\"Sample\",\"email\":\"sandra.sample@somewhere.example\", \"dateOfBirth\":\"1980-04-24\"}";
 	assertEquals("Wrong status code!", OK.value(), response.getStatusCodeValue());
 	assertEquals(expectedResponseJson, response.getBody(), false);
 
@@ -81,7 +81,7 @@ public class SpringBootRestServiceIT {
 
     @Test
     public void testCreateCustomerSuccess() {
-	String requestJson = "{\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\"}";
+	String requestJson = "{\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\", \"dateOfBirth\":\"1964-01-12\"}";
 	headers.add("Content-Type", "application/json");
 	HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
 	ResponseEntity<String> response = restTemplate.exchange(createUrl("/customers"), PUT, entity, String.class);
@@ -102,7 +102,7 @@ public class SpringBootRestServiceIT {
     public void testUpdateCustomerSuccess() throws JSONException {
 
 	// PUT changed data for customer with id = 4713:
-	String requestJson = "{\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\"}";
+	String requestJson = "{\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\", \"dateOfBirth\":\"1964-01-12\"}";
 	headers.add("Content-Type", "application/json");
 	HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
 	ResponseEntity<String> response = restTemplate.exchange(createUrl("/customers/4713"), PUT, entity,
@@ -111,7 +111,7 @@ public class SpringBootRestServiceIT {
 	assertEquals("Wrong status code!", OK, response.getStatusCode());
 
 	// GET and check the modified data:
-	String expectedResponseJson = "{\"id\":4713,\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\"}";
+	String expectedResponseJson = "{\"id\":4713,\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\", \"dateOfBirth\":\"1964-01-12\"}";
 	headers.clear();
 	entity = new HttpEntity<>(null, headers);
 	response = restTemplate.exchange(createUrl("/customers/4713"), GET, entity, String.class);
@@ -124,7 +124,7 @@ public class SpringBootRestServiceIT {
     public void testUpdateCustomerFailureIdNotFound() throws JSONException {
 
 	// Try to PUT changed data for customer with wrong id = 6789:
-	String requestJson = "{\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\"}";
+	String requestJson = "{\"surename\":\"Goofy\",\"lastname\":\"Goodman\",\"email\":\"goofy.goodman@somewhere.example\", \"dateOfBirth\":\"1964-01-12\"}";
 	headers.add("Content-Type", "application/json");
 	HttpEntity<String> entity = new HttpEntity<>(requestJson, headers);
 	ResponseEntity<String> response = restTemplate.exchange(createUrl("/customers/6789"), PUT, entity,

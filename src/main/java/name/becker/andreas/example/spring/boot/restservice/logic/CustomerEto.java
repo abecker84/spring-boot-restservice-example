@@ -1,5 +1,7 @@
 package name.becker.andreas.example.spring.boot.restservice.logic;
 
+import java.time.LocalDate;
+
 /*
  * Copyright 2018, Andreas Becker <andreas AT becker DOT name>
  * 
@@ -27,6 +29,7 @@ public class CustomerEto {
     private String surename;
     private String lastname;
     private String email;
+    private LocalDate dateOfBirth;
 
     public String getSurename() {
 	return surename;
@@ -58,6 +61,14 @@ public class CustomerEto {
 
     public void setId(long id) {
 	this.id = id;
+    }
+
+    public LocalDate getDateOfBirth() {
+	return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+	this.dateOfBirth = dateOfBirth;
     }
 
 }
