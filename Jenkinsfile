@@ -26,15 +26,21 @@ pipeline {
     }
     stages {
         stage('Build'){
-           echo 'Building Spring-Boot REST service example...'
-           checkout scm
-           sh 'mvn clean install'
+        	steps {
+        		echo 'Building Spring-Boot REST service example...'
+           		checkout scm
+           		sh 'mvn clean install'   
+        	}           
         }
 		stage('Test'){
-		    echo 'Integration-Testing Spring-Boot REST service example...'
+			steps {
+				echo 'Integration-Testing Spring-Boot REST service example...'   
+			}		    
 		}
 		stage('Deploy'){
-		    echo 'Deploying Spring-Boot REST service example...'
+			steps {
+				echo 'Deploying Spring-Boot REST service example...'   
+			}		    
 		}
     }
 }
