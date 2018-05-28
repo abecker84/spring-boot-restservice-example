@@ -23,14 +23,15 @@ pipeline {
         	steps {
         		echo 'Building Spring-Boot REST service example...'
            		checkout scm
-           		sh 'mvn clean install'   
-        	}           
+           		sh 'mvn -B clean install'   
+        	}
+        	post {
+        	    always {
+        	    	archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        	        junit 'target/surefire-reports/*.xml'
+        	    }        	    
+        	}
         }
-		stage('Test'){
-			steps {
-				echo 'Integration-Testing Spring-Boot REST service example...'   
-			}		    
-		}
 		stage('Deploy'){
 			steps {
 				echo 'Deploying Spring-Boot REST service example...'   
